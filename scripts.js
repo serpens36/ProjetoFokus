@@ -30,7 +30,7 @@ musicaFocoInput.addEventListener('change', () => {
 
 
 focoBt.addEventListener('click', () => {
-    tempoDecorridoEmSegundos = 1500;
+    tempoDecorridoEmSegundos = 5;
     alterarContexto('foco');
     focoBt.classList.add('active');
 });
@@ -72,14 +72,19 @@ function alterarContexto(contexto) {
 };
 
 const contagemRegressiva = () => {
-    if (tempoDecorridoEmSegundos <= 0 ) {
+    if(tempoDecorridoEmSegundos <= 0){
         terminar.play();
-        alert('Tempo Finalizado!')
+        alert('Tempo finalizado!');
+        const focoAtivo = corDeFundo.getAttribute('data-contexto') == 'foco';
+        if (focoAtivo) {
+            const evento = new CustomEvent('FocoFinalizado')
+            document.dispatchEvent(evento)
+        }
         zerar();
         return;
     }
-    tempoDecorridoEmSegundos -= 1;
-    mostrarTempo();
+    tempoDecorridoEmSegundos -= 1
+    mostrarTempo()
 }
 
 startPauseBt.addEventListener('click', iniciarOuPausar);
@@ -110,3 +115,4 @@ function mostrarTempo() {
 }
 
 mostrarTempo();
+
